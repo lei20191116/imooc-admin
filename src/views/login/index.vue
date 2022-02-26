@@ -26,10 +26,10 @@
         placeholder="password"
         name="password"
         v-model="loginForm.password"
-        type="password"
+        :type="passwordType"
         ></el-input>
-         <span class="show-pwd">
-          <svg-icon icon="eye" />
+         <span class="show-pwd" @click="onChangePwdType">
+          <svg-icon :icon="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
       <!-- 登录按钮 -->
@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { validatePassword } from '@/utils/rules'
+import { validatePassword } from '@/views/login/rules'
 const loginForm = ref({
   username: 'admin',
   password: '123456'
@@ -62,6 +62,18 @@ const loginRules = ref({
     }
   ]
 })
+
+// 密码框显示
+const passwordType = ref('password')
+// template中 绑定的方法，直接声明即可
+const onChangePwdType = () => {
+  // 使用 ref声明的数据，在script中使用，需要加value获取 template中 不需要
+  if (passwordType.value === 'password') {
+    passwordType.value = 'text'
+  } else {
+    passwordType.value = 'password'
+  }
+}
 </script>
 
 <style lang="scss" scoped>
